@@ -3,9 +3,9 @@ package database;
 import java.sql.*;
 
 public class DBConnection {
-    private static final String connectionString = "jdbc:mysql://localhost:3306/HeroGame";
+    private static final String connectionString = "jdbc:mysql://localhost:3306/herogame";
     private static final String user = "root";
-    private static final String password = ""; // Điền pass nếu MySQL của bạn có mật khẩu
+    private static final String password = "";
     private static final String driver = "com.mysql.cj.jdbc.Driver";
     private Connection conn;
 
