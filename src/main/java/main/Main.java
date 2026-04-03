@@ -1,65 +1,77 @@
+import dao.NationalDaoImpl;
 import dao.PlayerDaoImpl;
 import entity.Player;
-
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         PlayerDaoImpl playerDao = new PlayerDaoImpl();
-        int choice;
+        NationalDaoImpl nationalDao = new NationalDaoImpl();
+        int choice = -1;
 
-        do {
-            System.out.println("\n===== HERO GAME MENU =====");
-            System.out.println("1. Hiển thị tất cả người chơi (Display All)");
-            System.out.println("2. Thêm người chơi mới (Insert Player)");
-            System.out.println("3. Xóa người chơi (Delete Player)");
-            System.out.println("4. Tìm kiếm người chơi theo tên (Find by Name)");
-            System.out.println("5. Hiển thị Top 10 điểm cao nhất (Top 10 High Score)");
-            System.out.println("0. Thoát chương trình");
-            System.out.print("Vui lòng chọn chức năng (0-5): ");
+        while (choice != 0) {
+            System.out.println("\n========= HERO GAME MANAGEMENT =========");
+            System.out.println("1. Hiển thị danh sách Player (Table 1)");
+            System.out.println("2. Thêm Player mới");
+            System.out.println("3. Xóa Player");
+            System.out.println("4. Tìm Player theo tên");
+            System.out.println("5. Hiển thị Top 10 High Score");
+            System.out.println("6. Quản lý Quốc gia (Thêm/Xóa National)");
+            System.out.println("0. Thoát");
+            System.out.print("Lựa chọn của bạn: ");
 
-            choice = Integer.parseInt(scanner.nextLine());
-
-            switch (choice) {
-                case 1:
-                    playerDao.displayAll();
-                    break;
-                case 2:
-                    System.out.println("\n--- THÊM NGƯỜI CHƠI ---");
-                    System.out.print("Nhập National ID (VD: 1 cho Vietnam, 2 cho USA): ");
-                    int nationalId = Integer.parseInt(scanner.nextLine());
-                    System.out.print("Nhập tên Player: ");
-                    String name = scanner.nextLine();
-                    System.out.print("Nhập High Score: ");
-                    int score = Integer.parseInt(scanner.nextLine());
-                    System.out.print("Nhập Level: ");
-                    int level = Integer.parseInt(scanner.nextLine());
-
-                    Player newPlayer = new Player(0, nationalId, name, score, level);
-                    playerDao.insertPlayer(newPlayer);
-                    break;
-                case 3:
-                    System.out.print("\nNhập ID người chơi cần xóa: ");
-                    int deleteId = Integer.parseInt(scanner.nextLine());
-                    playerDao.deletePlayer(deleteId);
-                    break;
-                case 4:
-                    System.out.print("\nNhập tên người chơi cần tìm: ");
-                    String searchName = scanner.nextLine();
-                    playerDao.displayAllByPlayerName(searchName);
-                    break;
-                case 5:
-                    playerDao.displayTop10();
-                    break;
-                case 0:
-                    System.out.println("Đã thoát chương trình. Tạm biệt!");
-                    break;
-                default:
-                    System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại!");
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+                switch (choice) {
+                    case 1:
+                        playerDao.displayAll();
+                        break;
+                    case 2:
+                        nationalDao.displayAll();
+                        System.out.print("Nhập ID quốc gia: ");
+                        int nid = Integer.parseInt(scanner.nextLine());
+                        System.out.print("Nhập tên người chơi: ");
+                        String name = scanner.nextLine();
+                        System.out.print("Nhập High Score: ");
+                        int score = Integer.parseInt(scanner.nextLine());
+                        System.out.print("Nhập Level: ");
+                        int level = Integer.parseInt(scanner.nextLine());
+                        playerDao.insertPlayer(new Player(0, nid, name, score, level));
+                        break;
+                    case 3:
+                        System.out.print("Nhập ID Player cần xóa: ");
+                        int pid = Integer.parseInt(scanner.nextLine());
+                        playerDao.deletePlayer(pid);
+                        break;
+                    case 4:
+                        System.out.print("Nhập tên cần tìm: ");
+                        String sName = scanner.nextLine();
+                        playerDao.displayAllByPlayerName(sName);
+                        break;
+                    case 5:
+                        playerDao.displayTop10();
+                        break;
+                    case 6:
+                        System.out.println("6a. Thêm quốc gia | 6b. Xóa quốc gia");
+                        System.out.print("Chọn (a/b): ");
+                        String sub = scanner.nextLine();
+                        if (sub.equals("a")) {
+                            System.out.print("Tên quốc gia mới: ");
+                            nationalDao.insertNational(scanner.nextLine());
+                        } else {
+                            nationalDao.displayAll();
+                            System.out.print("Nhập ID quốc gia cần xóa: ");
+                            nationalDao.deleteNational(Integer.parseInt(scanner.nextLine()));
+                        }
+                        break;
+                    case 0:
+                        System.out.println("Tạm biệt!");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("=> [LỖI] Vui lòng chỉ nhập số và không để trống thông tin!");
             }
-        } while (choice != 0);
-
-        scanner.close();
+        }
     }
 }
