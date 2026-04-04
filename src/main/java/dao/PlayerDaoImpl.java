@@ -1,7 +1,7 @@
 package dao;
 
-import database.DBConnection; // Đảm bảo bạn đã tạo class này theo Bước 4
-import entity.Player;         // Đảm bảo bạn đã tạo class Player
+import database.DBConnection;
+import entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.sql.Statement;
 
 public class PlayerDaoImpl {
 
-    // 1. Hàm thêm người chơi mới
+
     public void insertPlayer(Player player) {
         String sql = "INSERT INTO Player (NationalId, PlayerName, HighScore, Level) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
@@ -27,11 +27,11 @@ public class PlayerDaoImpl {
                 System.out.println("=> Thêm người chơi thành công!");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
-    // 2. Hàm xóa người chơi theo ID
+
     public void deletePlayer(int playerId) {
         String sql = "DELETE FROM Player WHERE PlayerId = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -45,11 +45,11 @@ public class PlayerDaoImpl {
                 System.out.println("=> Không tìm thấy người chơi với ID này.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
-    // 3. Hàm hiển thị tất cả người chơi (JOIN với bảng National để lấy tên quốc gia)
+
     public void displayAll() {
         String sql = "SELECT p.PlayerId, p.PlayerName, p.HighScore, p.Level, n.NationalName " +
                 "FROM Player p JOIN National n ON p.NationalId = n.NationalId";
@@ -70,11 +70,11 @@ public class PlayerDaoImpl {
                         rs.getString("NationalName"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
-    // 4. Hàm tìm kiếm người chơi theo tên (Tìm kiếm gần đúng với LIKE)
+
     public void displayAllByPlayerName(String name) {
         String sql = "SELECT p.PlayerId, p.PlayerName, p.HighScore, p.Level, n.NationalName " +
                 "FROM Player p JOIN National n ON p.NationalId = n.NationalId " +
@@ -103,11 +103,11 @@ public class PlayerDaoImpl {
                 System.out.println("Không tìm thấy người chơi nào phù hợp.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
-    // 5. Hàm hiển thị Top 10 người chơi có điểm cao nhất
+
     public void displayTop10() {
         String sql = "SELECT p.PlayerId, p.PlayerName, p.HighScore, p.Level, n.NationalName " +
                 "FROM Player p JOIN National n ON p.NationalId = n.NationalId " +
@@ -129,7 +129,7 @@ public class PlayerDaoImpl {
                         rs.getString("NationalName"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }

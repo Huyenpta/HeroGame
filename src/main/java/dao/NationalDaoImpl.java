@@ -11,7 +11,7 @@ public class NationalDaoImpl {
             pstmt.setString(1, name);
             pstmt.executeUpdate();
             System.out.println("=> Thêm quốc gia thành công!");
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) { System.out.println(e.getMessage()); }
     }
 
     public void deleteNational(int id) {
@@ -36,6 +36,6 @@ public class NationalDaoImpl {
             while (rs.next()) {
                 System.out.println("ID: " + rs.getInt("NationalId") + " | Tên: " + rs.getString("NationalName"));
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) { System.out.println(e.getMessage()); }
     }
 }
